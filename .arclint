@@ -1,0 +1,16 @@
+{
+  "linters": {
+    "flake8": {
+      "flags": [
+        "--select",
+        "E,W,N,F"
+      ],
+      "include": "(\\.py$)",
+      "exclude": "(__init__.py$)",
+      "type": "flake8",
+      "severity": {
+        "W503": "disabled"
+      }
+     }
+  }
+}

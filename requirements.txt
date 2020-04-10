@@ -1,0 +1,5 @@
+flask==1.1.2
+flask_smorest==0.21.0
+django==2.2.5
+djangorestframework==3.11.0
+webargs==5.5.3

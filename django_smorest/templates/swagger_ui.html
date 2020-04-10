@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>{{title}}</title>
+    <link href="{{swagger_ui_url}}swagger-ui.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+ <body>
+
+   <div id="swagger-ui-container"></div>
+
+   <script src="{{swagger_ui_url}}swagger-ui-standalone-preset.js"></script>
+   <script src="{{swagger_ui_url}}swagger-ui-bundle.js"></script>
+   <script>
+     window.onload = function() {
+       const ui = SwaggerUIBundle({
+         url: "{{open_api_url}}",
+         dom_id: '#swagger-ui-container',
+         deepLinking: true,
+         layout: "BaseLayout",
+         supportedSubmitMethods: ['get', 'put', 'post', 'delete',
+           'head', 'patch', 'trace'],
+       })
+       window.ui = ui
+     }
+   </script>
+
+ </body>
+
+</html>
