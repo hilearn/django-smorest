@@ -7,22 +7,22 @@ from django.shortcuts import render_to_response
 
 
 class OpenAPISpec:
-    def __init__(self, name='', url_prefix='', blueprints=[]):
+    def __init__(self, name='', url_prefix=''):
         self.spec_urls = []
         self.url_prefix = url_prefix
-        self.blueprints = blueprints
         self._app = Flask(name)
-        self._api = None
         self._app.config = settings.OPENAPI_SETTINGS
         self._app.config['DEBUG'] = True
-        self._init_api()
+        self._api = Api(app=self._app)
         self._init_spec_urls()
 
-    def _init_api(self):
-        self._api = Api(app=self._app)
-        for blp in self.blueprints:
-            self._api.register_blueprint(
-                blp, url_prefix=f'{self.url_prefix}{blp.url_prefix}')
+    def register_blueprint(self, blp, **kwargs):
+        if 'url_prefix' in kwargs:
+            del kwargs['url_prefix']
+
+        self._api.register_blueprint(
+            blp, url_prefix=f'{self.url_prefix}{blp.url_prefix}',
+            **kwargs)
 
     def _init_spec_urls(self):
         self.openapi_url = self._app.config.get('OPENAPI_URL_PREFIX', None)
@@ -58,7 +58,14 @@ class OpenAPISpec:
                          self._swagger_ui))
 
     def _openapi_json(self, *args, **kwargs):
-        return JsonResponse(self._api.spec.to_dict(),
+        spec_dict = self._api.spec.to_dict()
+        if ('components' in spec_dict
+                and 'securitySchemes' in spec_dict['components']):
+            spec_dict['security'] = []
+            for security in spec_dict['components']['securitySchemes'].keys():
+                spec_dict['security'].append({security: []})
+
+        return JsonResponse(spec_dict,
                             safe=False)
 
     def _redoc_ui(self, *args, **kwargs):
@@ -77,3 +84,9 @@ class OpenAPISpec:
 
     def to_dict(self):
         return self._api.spec.to_dict()
+
+    def add_jwt_auth(self):
+        jwt_scheme = {"type": "http", "scheme": "bearer",
+                      "bearerFormat": "JWT"}
+
+        self._api.spec.components.security_scheme("jwt", jwt_scheme)
