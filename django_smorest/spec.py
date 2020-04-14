@@ -6,6 +6,11 @@ from django.urls import path
 from django.shortcuts import render_to_response
 
 
+class DjangoApi(Api):
+    def _register_responses(self):
+        pass
+
+
 class OpenAPISpec:
     def __init__(self, name='', url_prefix=''):
         self.spec_urls = []
@@ -13,7 +18,7 @@ class OpenAPISpec:
         self._app = Flask(name)
         self._app.config = settings.OPENAPI_SETTINGS
         self._app.config['DEBUG'] = True
-        self._api = Api(app=self._app)
+        self._api = DjangoApi(app=self._app)
         self._init_spec_urls()
 
     def register_blueprint(self, blp, **kwargs):

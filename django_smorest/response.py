@@ -1,7 +1,6 @@
 from copy import deepcopy
 from functools import wraps
 
-from flask_smorest.utils import deepupdate
 from flask_smorest.compat import MARSHMALLOW_VERSION_MAJOR
 
 
@@ -48,8 +47,8 @@ class DjangoResponseMixin:
 
             # Store doc in wrapper function
             # The deepcopy avoids modifying the wrapped function doc
-            wrapper._apidoc = deepupdate(
-                deepcopy(getattr(wrapper, '_apidoc', {})), doc)
+            wrapper._apidoc = deepcopy(getattr(wrapper, '_apidoc', {}))
+            wrapper._apidoc['response'] = doc
 
             return wrapper
 
