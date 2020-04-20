@@ -1,4 +1,10 @@
 .tmp/
 .venv/
 .idea/
+build/
+dist/
+django_smorest.egg-info/
 __pycache__/
+
+.arcconfig
+.arclint
