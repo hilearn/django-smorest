@@ -15,6 +15,6 @@ setup(
     install_requires=["flask==1.1.1",
                       "flask-smorest==0.18.2",
                       "django==2.2.10",
-                      "djangorestframework==3.11.0",
+                      "djangorestframework==3.11.2",
                       "webargs==5.5.3"],
 )
