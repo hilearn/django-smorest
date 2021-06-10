@@ -14,7 +14,7 @@ setup(
                  'Development Status :: 3 - Alpha'],
     install_requires=["flask==1.1.1",
                       "flask-smorest==0.18.2",
-                      "django==2.2.10",
+                      "django==2.2.24",
                       "djangorestframework==3.11.0",
                       "webargs==5.5.3"],
 )
